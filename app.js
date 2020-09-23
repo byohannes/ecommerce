@@ -13,11 +13,12 @@ mongoose
   })
   .then(() => console.log("DB Connected"));
 
-// routes
+// import routes
 
-app.get("/", (req, res) => {
-  res.send("hello from node");
-});
+const userRoutes = require("./routes/user");
+
+// routes middleware
+app.use("/api", userRoutes);
 
 const port = process.env.PORT || 8000;
 
