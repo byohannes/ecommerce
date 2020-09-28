@@ -27,7 +27,7 @@ app.use(expressValidator());
 app.use(cors());
 // import routes
 
-const userRoutes = require("./routes/user");
+const userRoutes = require("./routes/auth");
 
 // routes middleware
 app.use("/api", userRoutes);
