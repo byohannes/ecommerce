@@ -8,7 +8,7 @@ const Signup = () => (
     description="Signup in to Node React E-commerce App"
     className="container-fluid"
   >
-    {API}
+    ...
   </Layout>
 );
 
