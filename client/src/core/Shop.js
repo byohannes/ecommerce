@@ -3,7 +3,7 @@ import Layout from "./Layout";
 import Card from "./Card";
 import { getCategories, getFilteredProducts } from "./apiCore";
 import Checkbox from "./Checkbox";
-import RadioBox from "./Radiobox";
+import RadioBox from "./RadioBox";
 import { prices } from "./fixedPrices";
 
 const Shop = () => {
