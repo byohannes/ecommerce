@@ -138,10 +138,10 @@ exports.update = (req, res) => {
 exports.list = (req, res) => {
   let order = req.query.order ? req.query.order : "asc";
   let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
-  let limit = req.query.limit ? Number(req.query.limit) : 6;
+  let limit = req.query.limit ? parseInt(req.query.limit) : 6;
 
   Product.find()
-    .select("-photo") //de select photo as it is a large file
+    .select("-photo")
     .populate("category")
     .sort([[sortBy, order]])
     .limit(limit)
@@ -161,7 +161,7 @@ exports.list = (req, res) => {
  */
 
 exports.listRelated = (req, res) => {
-  let limit = req.query.limit ? Number(req.query.limit) : 6;
+  let limit = req.query.limit ? parseInt(req.query.limit) : 6;
 
   Product.find({ _id: { $ne: req.product }, category: req.product.category })
     .limit(limit)
@@ -245,4 +245,47 @@ exports.photo = (req, res, next) => {
     return res.send(req.product.photo.data);
   }
   next();
+};
+
+exports.listSearch = (req, res) => {
+  // create query object to hold search value and category value
+  const query = {};
+  // assign search value to query.name
+  if (req.query.search) {
+    query.name = { $regex: req.query.search, $options: "i" };
+    // assigne category value to query.category
+    if (req.query.category && req.query.category != "All") {
+      query.category = req.query.category;
+    }
+    // find the product based on query object with 2 properties
+    // search and category
+    Product.find(query, (err, products) => {
+      if (err) {
+        return res.status(400).json({
+          error: errorHandler(err),
+        });
+      }
+      res.json(products);
+    }).select("-photo");
+  }
+};
+
+exports.decreaseQuantity = (req, res, next) => {
+  let bulkOps = req.body.order.products.map((item) => {
+    return {
+      updateOne: {
+        filter: { _id: item._id },
+        update: { $inc: { quantity: -item.count, sold: +item.count } },
+      },
+    };
+  });
+
+  Product.bulkWrite(bulkOps, {}, (error, products) => {
+    if (error) {
+      return res.status(400).json({
+        error: "Could not update product",
+      });
+    }
+    next();
+  });
 };
