@@ -62,7 +62,6 @@ userSchema.methods = {
         .update(password)
         .digest("hex");
     } catch (err) {
-      console.log(err);
       return "";
     }
   },
