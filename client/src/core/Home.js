@@ -11,7 +11,7 @@ const Home = () => {
 
   const loadProductsBySell = () => {
     getProducts("sold").then((data) => {
-      if (data&&data.error) {
+      if (data && data.error) {
         setError(data.error);
       } else {
         setProductsBySell(data);
@@ -22,7 +22,7 @@ const Home = () => {
   const loadProductsByArrival = () => {
     getProducts("createdAt").then((data) => {
       console.log(data);
-      if (data&&data.error) {
+      if (data && data.error) {
         setError(data.error);
       } else {
         setProductsByArrival(data);
@@ -44,20 +44,22 @@ const Home = () => {
       <Search />
       <h2 className="mb-4">New Arrivals</h2>
       <div className="row">
-        {productsByArrival&&productsByArrival.map((product, i) => (
-          <div key={i} className="col-4 mb-3">
-            <Card product={product} />
-          </div>
-        ))}
+        {productsByArrival &&
+          productsByArrival.map((product, i) => (
+            <div key={i} className="col-4 mb-3">
+              <Card product={product} />
+            </div>
+          ))}
       </div>
 
       <h2 className="mb-4">Best Sellers</h2>
       <div className="row">
-        {productsBySell.map((product, i) => (
-          <div key={i} className="col-4 mb-3">
-            <Card product={product} />
-          </div>
-        ))}
+        {productsBySell &&
+          productsBySell.map((product, i) => (
+            <div key={i} className="col-4 mb-3">
+              <Card product={product} />
+            </div>
+          ))}
       </div>
     </Layout>
   );
