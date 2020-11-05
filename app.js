@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const expressValidator = require("express-validator");
+const path = require("path");
 require("dotenv").config();
 // import routes
 const authRoutes = require("./routes/auth");
@@ -40,6 +41,13 @@ app.use("/api", productRoutes);
 app.use("/api", braintreeRoutes);
 app.use("/api", orderRoutes);
 
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+  );
+}
 const port = process.env.PORT || 8000;
 
 app.listen(port, () => {
