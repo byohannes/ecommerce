@@ -20,8 +20,7 @@ const Home = () => {
   };
 
   const loadProductsByArrival = () => {
-    getProducts("createdAt").then((data) => {
-      console.log(data);
+    getProducts("createdAt").then((data) => { 
       if (data && data.error) {
         setError(data.error);
       } else {
