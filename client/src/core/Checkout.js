@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import {
-  getProducts,
   getBraintreeClientToken,
   processPayment,
   createOrder,
 } from "./apiCore";
 import { emptyCart } from "./cartHelpers";
-import Card from "./Card";
 import { isAuthenticated } from "../auth";
-import { Link } from "react-router-dom";
-// import "braintree-web"; // not using this package
+import { Link } from "react-router-dom"; 
 import DropIn from "braintree-web-drop-in-react";
 
 const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
@@ -27,7 +24,7 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
 
   const getToken = (userId, token) => {
     getBraintreeClientToken(userId, token).then((data) => {
-      if (data&&data.error) {
+      if (data && data.error) {
         console.log(data.error);
         setData({ ...data, error: data.error });
       } else {
