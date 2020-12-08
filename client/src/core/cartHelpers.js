@@ -56,6 +56,7 @@ export const updateItem = (productId, count) => {
       if (product._id === productId) {
         cart[i].count = count;
       }
+      return false;
     });
 
     localStorage.setItem("cart", JSON.stringify(cart));
@@ -73,6 +74,7 @@ export const removeItem = (productId) => {
       if (product._id === productId) {
         cart.splice(i, 1);
       }
+      return false;
     });
 
     localStorage.setItem("cart", JSON.stringify(cart));
